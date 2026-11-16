@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Hola, Vórtex · Authorization</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<main>
+<h1>Hola, Vórtex</h1>
+<p id="msg">Waiting for TikTok…</p>
+<p>This page only shows the authorization result of the channel owner's own TikTok account. Nothing on this page is sent anywhere or stored.</p>
+<p><a href="./">Back to the app description</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a></p>
+</main>
+<script>
+const q = new URLSearchParams(location.search);
+const msg = document.getElementById("msg");
+if (q.get("error")) {
+  msg.textContent = "TikTok returned an error: " + (q.get("error_description") || q.get("error"));
+} else if (q.get("code")) {
+  msg.textContent = "Authorization received. The owner copies the code below into the publishing tool.";
+  const box = document.createElement("textarea");
+  box.readOnly = true; box.rows = 3; box.style.width = "100%"; box.value = q.get("code");
+  msg.after(box);
+} else {
+  msg.textContent = "No authorization in progress.";
+}
+</script>
+</body>
+</html>
