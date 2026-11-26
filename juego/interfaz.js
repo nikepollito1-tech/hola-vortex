@@ -28,7 +28,7 @@
   let urlVortex = "img/vortex_curioso.svg";
   function arte(item) {
     if (item.arte.t === "vortex") return urlVortex;
-    if (!ARTE[item.id]) { const c = document.createElement("canvas"); c.width = c.height = 200; pintarArte(c.getContext("2d"), item.arte, 200); ARTE[item.id] = c.toDataURL("image/png"); }
+    if (!ARTE[item.id] || (window.TresD && !TresD.completo)) { const c = document.createElement("canvas"); c.width = c.height = 200; pintarArte(c.getContext("2d"), item.arte, 200); ARTE[item.id] = c.toDataURL("image/png"); }
     return ARTE[item.id];
   }
   function carta(item, opc = {}) {

@@ -101,6 +101,7 @@ function destello(g, x, y, r, col) {
 }
 // Pinta un objeto de radio s centrado en el origen. Solo se llama al crear cada imagen, nunca en cada fotograma.
 function pintarTipo(g, tipo, s, va) {
+  if (window.TresD && TresD.objeto(g, tipo, s, va)) return;
   switch (tipo) {
     case "meteorito": {
       const semilla = va * 37.3 + 1;
@@ -174,6 +175,7 @@ function spriteMejora(id) {
     g.fillStyle = gr; g.beginPath(); g.arc(0, 0, REF * 1.6, 0, TAU); g.fill();
     g.fillStyle = "#14113A"; g.beginPath(); g.arc(0, 0, REF, 0, TAU); g.fill();
     g.strokeStyle = h.color; g.lineWidth = REF * 0.14; g.stroke();
+    if (window.TresD) TresD.mejora(g, id, REF);
     g.font = `${Math.round(REF * 1.05)}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;
     g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = "#fff"; g.fillText(h.icono, 0, REF * 0.06);
     SPR[k] = c;
@@ -198,7 +200,7 @@ async function svgCara(cara) {
   return SVG_TXT[cara];
 }
 async function urlCara(skin, cara) {
-  if (skin === "clasico") return `img3d/${cara}.webp`;
+  if (window.SIN_SERVIDOR) return skin === "clasico" ? `img3d/${cara}.webp` : `img3d/${skin}-${cara}.webp`;
   const pal = PIELES[skin];
   return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(recolorear(await svgCara(cara), pal));
 }

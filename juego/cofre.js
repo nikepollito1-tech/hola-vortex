@@ -31,6 +31,7 @@ const Cofre = (() => {
     g.closePath();
   }
   function pintar(g, tipo, cx, cy, s, o = {}) {
+    if (window.TresD && TresD.cofre(g, tipo, cx, cy, s, o)) return;
     const p = PAL[tipo] || PAL.asteroide, abrir = o.abrir || 0, luz = o.luz || 0, borde = Math.max(2, s * 0.022);
     const w = s, xb = cx - w / 2, yTapa = cy - s * 0.06, hb = s * 0.4, hl = s * 0.3;
     g.save();
@@ -112,7 +113,7 @@ const Cofre = (() => {
   const IMG = {};
   function imagen(tipo, tam = 220) {
     const k = tipo + tam;
-    if (!IMG[k]) {
+    if (!IMG[k] || (window.TresD && !TresD.completo)) {
       const c = document.createElement("canvas"); c.width = c.height = tam;
       const g = c.getContext("2d");
       const gl = g.createRadialGradient(tam / 2, tam * 0.52, 0, tam / 2, tam * 0.52, tam * 0.5);

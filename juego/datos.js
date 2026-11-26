@@ -136,6 +136,7 @@ function azar(semilla) {      // generador con semilla, para que cada carta salg
   return () => { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 }
 function pintarArte(g, a, T) {
+  if (window.TresD && TresD.carta(g, a, T)) return;
   const R = T * 0.34;
   g.save(); g.translate(T / 2, T / 2);
   const brillo = (x, y, r, col) => {
