@@ -1,0 +1,58 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Hola Vortex//Cielo//ES
+CALSCALE:GREGORIAN
+X-WR-CALNAME:El cielo de Hola\, Vórtex
+BEGIN:VEVENT
+UID:luna-nueva-dic-2026@holavortex
+DTSTAMP:20261126T113856Z
+DTSTART;VALUE=DATE:20261209
+DTEND;VALUE=DATE:20261210
+SUMMARY:Luna nueva: la noche más oscura
+DESCRIPTION:Sin Luna en el cielo\, es buena noche para salir de la ciudad
+  y buscar estrellas débiles.\nEspaña: toda la noche · México: toda la
+  noche · Argentina: toda la noche\nhttps://nikepollito1-tech.github.io/h
+ ola-vortex/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:geminidas-2026@holavortex
+DTSTAMP:20261126T113856Z
+DTSTART;VALUE=DATE:20261213
+DTEND;VALUE=DATE:20261215
+SUMMARY:Gemínidas: lluvia de estrellas
+DESCRIPTION:De las mejores del año\, y esta vez la Luna casi no molesta.
+  Busca un sitio oscuro\, túmbate\, deja que los ojos se acostumbren y mi
+ ra el cielo\; no hacen falta prismáticos.\nEspaña: desde las 22:00 hast
+ a el amanecer · México: desde las 22:00 hasta el amanecer · Argentina:
+  desde medianoche\; mejor hacia las 2:00\nhttps://nikepollito1-tech.githu
+ b.io/hola-vortex/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:solsticio-2026@holavortex
+DTSTAMP:20261126T113856Z
+DTSTART;VALUE=DATE:20261221
+DTEND;VALUE=DATE:20261222
+SUMMARY:Solsticio de diciembre
+DESCRIPTION:En España y México empieza el invierno\, con el día más c
+ orto del año. En Argentina es al revés: empieza el verano\, con el día
+  más largo.\nEspaña: empieza el invierno · México: empieza el inviern
+ o · Argentina: empieza el verano\nhttps://nikepollito1-tech.github.io/ho
+ la-vortex/
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:superluna-dic-2026@holavortex
+DTSTAMP:20261126T113856Z
+DTSTART;VALUE=DATE:20261223
+DTEND;VALUE=DATE:20261225
+SUMMARY:Superluna de Nochebuena
+DESCRIPTION:Luna llena cerca de su punto más próximo a la Tierra. Míra
+ la cuando salga\, baja sobre el horizonte.\nEspaña: llena el 24 a las 2:
+ 28 (noche del 23 al 24) · México: llena el 23 a las 19:28 · Argentina:
+  llena el 23 a las 22:28\nhttps://nikepollito1-tech.github.io/hola-vortex
+ /
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR

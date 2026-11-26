@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+<meta name="theme-color" content="#0A0A1F">
+<link rel="icon" href="img/vortex_curioso.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="juego.css?v=8">
+<style>#perfil,#aviso-cuenta,#top-inicio,#top-fin,#form-nombre,h2.sin-red{display:none!important}.barra-sup{justify-content:flex-end}</style>
+<script>window.SIN_SERVIDOR=true</script>
+<title>Vórtex tiene hambre: juego del espacio gratis y sin registro</title>
+<meta name="description" content="Juega gratis en el móvil: eres un agujero negro, trágate lo pequeño, esquiva lo grande y colecciona planetas y galaxias.">
+<link rel="canonical" href="https://nikepollito1-tech.github.io/hola-vortex/juego/">
+<meta property="og:type" content="website"><meta property="og:locale" content="es_ES"><meta property="og:site_name" content="Hola, Vórtex"><meta property="og:url" content="https://nikepollito1-tech.github.io/hola-vortex/juego/">
+<meta property="og:title" content="Vórtex tiene hambre: juego del espacio gratis y sin registro"><meta property="og:description" content="Juega gratis en el móvil: eres un agujero negro, trágate lo pequeño, esquiva lo grande y colecciona planetas y galaxias.">
+<meta property="og:image" content="https://nikepollito1-tech.github.io/hola-vortex/img/compartir.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Vórtex tiene hambre", "url": "https://nikepollito1-tech.github.io/hola-vortex/juego/", "description": "Juega gratis en el móvil: eres un agujero negro, trágate lo pequeño, esquiva lo grande y colecciona planetas y galaxias.", "inLanguage": "es", "image": "https://nikepollito1-tech.github.io/hola-vortex/img/compartir.jpg", "gamePlatform": "Navegador web", "applicationCategory": "Game", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "publisher": {"@type": "Organization", "name": "Hola, Vórtex", "url": "https://nikepollito1-tech.github.io/hola-vortex/"}}</script>
+</head>
+<body>
+<canvas id="lienzo" aria-label="Juego: arrastra el dedo para mover a Vórtex y trágate lo que sea más pequeño que él"></canvas>
+
+<button id="sonido" type="button" aria-label="Activar o quitar el sonido"></button>
+
+<!-- INICIO -->
+<section class="pantalla" id="inicio" aria-labelledby="t-inicio">
+  <div class="tarjeta">
+    <div class="barra-sup">
+      <button type="button" class="perfil" id="perfil"><img id="perfil-cara" src="img/vortex_curioso.svg" alt=""><span><b id="perfil-nombre">Invitado</b><small id="perfil-sub">Toca para crear tu cuenta</small></span></button>
+      <span class="chip polvo" id="chip-polvo" title="Polvo estelar">0</span>
+    </div>
+    <div class="estado">
+      <span class="chip nivel" id="chip-nivel">Nv 1</span>
+      <div class="xp" aria-hidden="true"><i id="xp-barra"></i><b id="xp-txt"></b></div>
+    </div>
+    <img class="mascota" id="cara-inicio" src="img/vortex_hambriento.svg" alt="Vórtex, un agujero negro pequeño con cara de hambre">
+    <h1 id="t-inicio">Vórtex tiene <span>hambre</span></h1>
+    <p class="sub">Trágate todo lo que sea <b>más pequeño</b> que Vórtex y esquiva lo <b>más grande</b>. Con los puntos abres cofres.</p>
+    <button class="si brilla" id="jugar" type="button">Jugar</button>
+    <button class="aviso-cuenta" id="aviso-cuenta" type="button" hidden><b>Guarda tu progreso</b><span>Crea tu cuenta gratis y juega en cualquier móvil sin perder nada.</span></button>
+    <button class="diario" id="diario" type="button" hidden></button>
+    <div class="menu">
+      <button type="button" id="ir-tienda"><img class="ic-menu" id="ic-cofre" alt=""><span>Cofres</span><small id="n-cofres"></small></button>
+      <button type="button" id="ir-coleccion"><svg class="ic-menu" viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="9" width="22" height="30" rx="4" fill="#2A2168" stroke="#5CE1E6" stroke-width="2.5" transform="rotate(-10 18 24)"/><rect x="18" y="8" width="22" height="30" rx="4" fill="#3A2F86" stroke="#FFC247" stroke-width="2.5" transform="rotate(8 29 23)"/><circle cx="29" cy="22" r="6" fill="#FFC247"/></svg><span>Colección</span><small id="n-coleccion"></small></button>
+      <button type="button" id="ir-vortex"><img class="ic-menu" id="ic-vortex" src="img/vortex_curioso.svg" alt=""><span>Vórtex</span><small>skins y poderes</small></button>
+    </div>
+    <h2>Misiones de hoy</h2>
+    <ul class="misiones" id="misiones"></ul>
+    <h2 class="sin-red">Mejores de la semana</h2>
+    <ol id="top-inicio"><li class="vacio">Cargando…</li></ol>
+    <p class="pie">Un juego de <a href="../">Hola, Vórtex</a>, el agujero negro que te cuenta el espacio. Gratis y sin compras. · <a href="privacidad.html">Privacidad</a></p>
+  </div>
+</section>
+
+<!-- CUENTA -->
+<section class="pantalla" id="cuenta" hidden aria-labelledby="t-cuenta">
+  <div class="tarjeta">
+    <div class="cabecera"><button type="button" class="volver" data-ir="inicio" aria-label="Volver">←</button><h1 id="t-cuenta">Tu cuenta</h1></div>
+    <div id="cuenta-fuera">
+      <div class="pestanas" role="tablist">
+        <button type="button" role="tab" id="tab-registro" aria-selected="true">Crear cuenta</button>
+        <button type="button" role="tab" id="tab-entrar" aria-selected="false">Entrar</button>
+      </div>
+      <form id="f-registro" class="formulario" autocomplete="on">
+        <p class="sub">Solo un nombre y una contraseña. No pedimos correo ni ningún otro dato. Lo que llevas jugado en este móvil pasa a tu cuenta.</p>
+        <label for="r-nombre">Nombre de jugador</label>
+        <input id="r-nombre" name="username" autocomplete="username" maxlength="12" minlength="3" required placeholder="De 3 a 12 letras o números">
+        <label for="r-clave">Contraseña</label>
+        <div class="con-ojo"><input id="r-clave" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="Mínimo 8 caracteres"><button type="button" class="ojo" data-ojo="r-clave" aria-label="Ver la contraseña">Ver</button></div>
+        <div class="fuerza" aria-hidden="true"><i id="r-fuerza"></i></div>
+        <label class="check"><input type="checkbox" id="r-edad" required> <span>Tengo 14 años o más, o permiso de mis padres. He leído la <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</span></label>
+        <button type="submit" class="si">Crear cuenta</button>
+        <div class="msg" role="status" id="r-msg"></div>
+      </form>
+      <form id="f-entrar" class="formulario" hidden autocomplete="on">
+        <label for="e-nombre">Nombre de jugador</label>
+        <input id="e-nombre" name="username" autocomplete="username" maxlength="12" required>
+        <label for="e-clave">Contraseña</label>
+        <div class="con-ojo"><input id="e-clave" name="password" type="password" autocomplete="current-password" maxlength="128" required><button type="button" class="ojo" data-ojo="e-clave" aria-label="Ver la contraseña">Ver</button></div>
+        <button type="submit" class="si">Entrar</button>
+        <div class="msg" role="status" id="e-msg"></div>
+        <button type="button" class="enlace" id="ir-recuperar">He olvidado la contraseña</button>
+      </form>
+      <form id="f-recuperar" class="formulario" hidden autocomplete="off">
+        <p class="sub">Escribe el código de recuperación que te dimos al crear la cuenta.</p>
+        <label for="c-nombre">Nombre de jugador</label>
+        <input id="c-nombre" autocomplete="username" maxlength="12" required>
+        <label for="c-codigo">Código de recuperación</label>
+        <input id="c-codigo" autocomplete="off" maxlength="24" required placeholder="XXXX-XXXX-XXXX-XXXX" class="codigo-in">
+        <label for="c-nueva">Contraseña nueva</label>
+        <input id="c-nueva" type="password" autocomplete="new-password" minlength="8" maxlength="128" required>
+        <button type="submit" class="si">Cambiar contraseña</button>
+        <div class="msg" role="status" id="c-msg"></div>
+        <button type="button" class="enlace" id="volver-entrar">Volver</button>
+      </form>
+    </div>
+    <div id="cuenta-dentro" hidden>
+      <div class="ficha">
+        <img id="ficha-cara" src="img/vortex_curioso.svg" alt="">
+        <div><b id="ficha-nombre"></b><small id="ficha-desde"></small></div>
+      </div>
+      <div class="cifras">
+        <div><b id="f-nivel">1</b><small>nivel</small></div>
+        <div><b id="f-partidas">0</b><small>partidas</small></div>
+        <div><b id="f-mejor">0</b><small>mejor marca</small></div>
+        <div><b id="f-coleccion">0</b><small>colección</small></div>
+      </div>
+      <p class="sub sincro" id="f-sincro">Tu progreso se guarda solo en tu cuenta.</p>
+      <details class="ajuste"><summary>Cambiar la contraseña</summary>
+        <form id="f-clave" class="formulario">
+          <label for="k-actual">Contraseña actual</label><input id="k-actual" type="password" autocomplete="current-password" required>
+          <label for="k-nueva">Contraseña nueva</label><input id="k-nueva" type="password" autocomplete="new-password" minlength="8" required>
+          <button type="submit">Cambiar</button><div class="msg" role="status" id="k-msg"></div>
+        </form>
+      </details>
+      <details class="ajuste"><summary>Nuevo código de recuperación</summary>
+        <form id="f-codigo" class="formulario">
+          <p class="sub">El código anterior dejará de valer.</p>
+          <label for="n-clave">Tu contraseña</label><input id="n-clave" type="password" autocomplete="current-password" required>
+          <button type="submit">Generar código</button><div class="msg" role="status" id="n-msg"></div>
+        </form>
+      </details>
+      <button type="button" id="salir" class="ancho">Cerrar sesión</button>
+      <details class="ajuste peligro"><summary>Borrar mi cuenta</summary>
+        <form id="f-borrar" class="formulario">
+          <p class="sub">Se borran tu cuenta, tu progreso y tus puntuaciones. No se puede deshacer.</p>
+          <label for="b-clave">Tu contraseña</label><input id="b-clave" type="password" autocomplete="current-password" required>
+          <button type="submit" class="borrar">Borrar para siempre</button><div class="msg" role="status" id="b-msg"></div>
+        </form>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CÓDIGO DE RECUPERACIÓN (se enseña una vez) -->
+<section class="pantalla opaca" id="codigo" hidden aria-labelledby="t-codigo">
+  <div class="tarjeta">
+    <img class="mascota" src="img/vortex_picaro.svg" alt="">
+    <h1 id="t-codigo">¡Cuenta lista!</h1>
+    <p class="sub">Guarda este <b>código de recuperación</b>. Si olvidas la contraseña, es la única forma de recuperar tu cuenta. Haz una captura o apúntalo.</p>
+    <div class="codigo" id="codigo-txt"></div>
+    <div class="fila"><button type="button" id="codigo-copiar">Copiar</button><button type="button" class="si" id="codigo-ok">Ya lo he guardado</button></div>
+  </div>
+</section>
+
+<!-- TIENDA DE COFRES -->
+<section class="pantalla" id="tienda" hidden aria-labelledby="t-tienda">
+  <div class="tarjeta">
+    <div class="cabecera"><button type="button" class="volver" data-ir="inicio" aria-label="Volver">←</button><h1 id="t-tienda">Cofres</h1><span class="chip polvo" id="polvo-tienda">0</span></div>
+    <p class="sub">Se abren con <b>polvo estelar</b>: un punto en la partida es un polvo. Los repetidos te devuelven polvo.</p>
+    <div id="lista-cofres"></div>
+    <p class="pie">Aquí no hay dinero de verdad: los cofres solo se consiguen jugando.</p>
+  </div>
+</section>
+
+<!-- APERTURA DE COFRE -->
+<section class="pantalla opaca escena-cofre" id="cofre" hidden tabindex="-1" aria-live="polite">
+  <canvas id="cofre-fx" aria-hidden="true"></canvas>
+  <div class="cofre-ui" id="cofre-ui">
+    <div class="cofre-cab"><span id="cofre-nombre"></span><span id="cofre-cuenta"></span></div>
+    <div class="cofre-zona" id="cofre-zona"></div>
+    <p class="toca" id="cofre-msg"></p>
+    <div class="cofre-pila" id="cofre-pila" aria-hidden="true"></div>
+    <div class="cofre-resumen-caja" id="cofre-final" hidden>
+      <h2 class="titulo-final">Has conseguido</h2>
+      <div class="resumen" id="cofre-resumen"></div>
+      <p class="resumen-txt" id="cofre-resumen-txt"></p>
+      <div class="fila" id="cofre-botones">
+        <button type="button" id="cofre-otro">Abrir otro</button>
+        <button type="button" class="si" id="cofre-salir">Seguir</button>
+      </div>
+    </div>
+  </div>
+  <button type="button" id="cofre-saltar" class="saltar">Saltar ›</button>
+</section>
+
+<!-- COLECCIÓN -->
+<section class="pantalla" id="coleccion" hidden aria-labelledby="t-coleccion">
+  <div class="tarjeta ancha">
+    <div class="cabecera"><button type="button" class="volver" data-ir="inicio" aria-label="Volver">←</button><h1 id="t-coleccion">Colección</h1><span class="chip" id="total-coleccion">0/0</span></div>
+    <div class="xp sola" aria-hidden="true"><i id="barra-coleccion"></i></div>
+    <div id="rejillas"></div>
+  </div>
+</section>
+
+<!-- DETALLE DE UNA CARTA -->
+<section class="pantalla opaca" id="detalle" hidden>
+  <div class="escena"><div class="carta grande" id="carta-detalle"></div><div class="fila"><button type="button" class="si" id="cerrar-detalle">Cerrar</button></div></div>
+</section>
+
+<!-- VÓRTEX: SKINS, ESTELAS Y HABILIDADES -->
+<section class="pantalla" id="vortex" hidden aria-labelledby="t-vortex">
+  <div class="tarjeta ancha">
+    <div class="cabecera"><button type="button" class="volver" data-ir="inicio" aria-label="Volver">←</button><h1 id="t-vortex">Vórtex</h1><span class="chip polvo" id="polvo-vortex">0</span></div>
+    <h2>Skins</h2>
+    <div class="rejilla skins" id="lista-skins"></div>
+    <h2>Estela</h2>
+    <div class="opciones" id="lista-estelas"></div>
+    <h2>Habilidades</h2>
+    <p class="sub">Aparecen flotando durante la partida. Se desbloquean al subir de nivel.</p>
+    <ul class="habilidades" id="lista-habilidades"></ul>
+    <h2>Próximos premios</h2>
+    <ul class="habilidades" id="lista-premios"></ul>
+    <h2>Sonido</h2>
+    <div class="opciones" id="lista-sonido"></div>
+    <h2>Control</h2>
+    <div class="opciones" id="lista-control"></div>
+  </div>
+</section>
+
+<!-- FIN DE PARTIDA -->
+<section class="pantalla" id="fin" hidden aria-labelledby="t-fin">
+  <div class="tarjeta">
+    <img class="mascota" id="cara-fin" src="img/vortex_picaro.svg" alt="">
+    <h1 id="t-fin">¡Se acabó!</h1>
+    <div class="puntos" id="puntos-fin">0</div>
+    <div class="record" id="record-fin" hidden>¡Nuevo récord!</div>
+    <p class="comido" id="resumen-fin"></p>
+    <div class="ganado">
+      <div class="estado"><span class="chip nivel" id="nivel-fin">Nv 1</span><div class="xp"><i id="xp-fin"></i><b id="xp-fin-txt"></b></div><span class="chip polvo" id="polvo-fin">+0</span></div>
+      <ul class="premios" id="premios-fin"></ul>
+    </div>
+    <div class="fila">
+      <button type="button" class="si" id="otra">Otra vez</button>
+      <button type="button" id="fin-cofres">Cofres</button>
+    </div>
+    <p class="guardado-cuenta" id="guardado-cuenta" hidden></p>
+    <form id="form-nombre">
+      <label for="nombre">Tu nombre para la clasificación</label>
+      <input id="nombre" name="nombre" maxlength="12" minlength="3" autocomplete="nickname" placeholder="De 3 a 12 letras" required>
+      <div class="fila"><button id="guardar" type="submit">Guardar puntuación</button></div>
+      <div class="msg" id="msg" role="status"></div>
+    </form>
+    <h2 class="sin-red">Mejores de la semana</h2>
+    <ol id="top-fin"></ol>
+    <div class="fila">
+      <button id="retar" type="button">Retar a alguien</button>
+      <button type="button" id="fin-inicio">Inicio</button>
+    </div>
+  </div>
+</section>
+
+<script src="datos.js?v=7"></script>
+<script src="progreso.js?v=7"></script>
+<script src="sonido.js?v=8"></script>
+<script src="motor.js?v=7"></script>
+<script src="cofre.js?v=7"></script>
+<script src="interfaz.js?v=7"></script>
+</body>
+</html>
