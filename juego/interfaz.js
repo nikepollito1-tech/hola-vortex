@@ -78,7 +78,7 @@
       ul.append(li);
     }
     try {
-      $("cara-inicio").src = await Juego.urlCara(D().skin, "hambriento"); urlVortex = await Juego.urlCara(D().skin, "curioso");
+      $("cara-inicio").src = await Juego.urlCara(D().skin, "hambriento", true); urlVortex = await Juego.urlCara(D().skin, "curioso");
       $("perfil-cara").src = urlVortex; $("ic-vortex").src = urlVortex;
     } catch (e) {}
   }
@@ -264,7 +264,7 @@
     });
     if (!record) Juego.sonar("fin");
     $("resumen-fin").textContent = resumen(r);
-    Juego.urlCara(D().skin, r.puntos > 2000 ? "picaro" : r.puntos > 300 ? "hambriento" : "sorprendido").then((u) => { $("cara-fin").src = u; }).catch(() => {});
+    Juego.urlCara(D().skin, r.puntos > 2000 ? "picaro" : r.puntos > 300 ? "hambriento" : "sorprendido", true).then((u) => { $("cara-fin").src = u; }).catch(() => {});
     $("polvo-fin").textContent = "+" + fmtN(r.puntos);
     // la barra arranca donde estaba y sube hasta donde queda
     barraNivel($("nivel-fin"), $("xp-fin"), $("xp-fin-txt"), g.xpAntes);

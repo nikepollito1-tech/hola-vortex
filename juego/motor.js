@@ -199,12 +199,14 @@ async function svgCara(cara) {
   if (!SVG_TXT[cara]) SVG_TXT[cara] = await (await fetch(`img/vortex_${cara}.svg`)).text();
   return SVG_TXT[cara];
 }
-async function urlCara(skin, cara) {
+async function urlCara(skin, cara, vivo) {
+  if (window.SIN_SERVIDOR && vivo && !matchMedia("(prefers-reduced-motion: reduce)").matches) return `img3d/anim/${skin}-${cara}.webp`;
   if (window.SIN_SERVIDOR) return skin === "clasico" ? `img3d/${cara}.webp` : `img3d/${skin}-${cara}.webp`;
   const pal = PIELES[skin];
   return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(recolorear(await svgCara(cara), pal));
 }
 async function cargarSkin(id) {
+  if (window.TresD) TresD.animar(id);
   if (SKIN_BMP[id]) return;
   const out = {};
   await Promise.all(NOMBRES_CARA.map(async (cara) => {
@@ -301,7 +303,7 @@ function golpe(o) {
     return;
   }
   st.golpes++;
-  p.r = Math.max(14, p.r * 0.85); p.inv = 1.5; temblor = 0.35; combo = 1; racha = 0; proxCrece = p.r * 1.45;
+  p.golpeado = performance.now() / 1000; p.r = Math.max(14, p.r * 0.85); p.inv = 1.5; temblor = 0.35; combo = 1; racha = 0; proxCrece = p.r * 1.45;
   ponerCara("sorprendido", 1.1);
   chispas(18, [C.amber, C.coral, C.moon]);
   texto(p.x, p.y - p.r * 1.6, "¡Ay!", C.coral);
@@ -319,10 +321,11 @@ function comer(o, ahora, callado) {
   puntos += gana;
   p.r = Math.min(320, Math.sqrt(p.r * p.r + 0.9 * o.s * o.s));   // techo: a partir de aquí ya solo caben galaxias pequeñas
   if (!proxCrece) proxCrece = p.r * 1.45;
-  if (p.r >= proxCrece) { proxCrece = p.r * 1.45; crecidas++; sonar("crece", Math.min(7, crecidas)); ponerCara("hambriento", 0.6); }
+  if (p.r >= proxCrece) { proxCrece = p.r * 1.45; crecidas++; p.crecio = performance.now() / 1000; sonar("crece", Math.min(7, crecidas)); ponerCara("hambriento", 0.6); }
   comidos[o.tipo] = (comidos[o.tipo] || 0) + 1;
   mayor = Math.max(mayor, ORDEN.indexOf(o.tipo));
   if (comiendo.length < 40) comiendo.push({o, t: 0, x0: o.x, y0: o.y});
+  p.mordisco = performance.now() / 1000;
   if (!callado || textos.length < 6) texto(o.x, o.y, "+" + gana + (combo > 1 ? " ×" + combo : ""), combo > 1 || fx.frenesi > 0 ? C.amber : C.moon);
   if (FRASES[o.tipo] && !vistos.has(o.tipo)) { vistos.add(o.tipo); texto(p.x, p.y - p.r * 2.2, FRASES[o.tipo], C.cyan, 1.6); }
   ponerCara("picaro", 0.5);
@@ -516,7 +519,8 @@ function dibujar() {
   if (fx.iman > 0) { ctx.globalAlpha = 0.16; ctx.strokeStyle = C.coral; ctx.lineWidth = p.r * 0.12; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (2.5 + (reloj * 2 % 1) * 4), 0, TAU); ctx.stroke(); ctx.globalAlpha = 1; }
   if (p.inv > 0 && Math.floor(p.inv * 12) % 2 === 0) ctx.globalAlpha = 0.45;
   const img = (SKIN_BMP[CFG.skin] || SKIN_BMP.clasico || {})[p.cara], t = p.r * IMG_K;
-  if (img) ctx.drawImage(img, p.x - t / 2, p.y - t / 2, t, t);
+  if (window.TresD && TresD.vortex(ctx, p, t, CFG.skin)) {}
+  else if (img) ctx.drawImage(img, p.x - t / 2, p.y - t / 2, t, t);
   else { ctx.fillStyle = "#07061A"; ctx.strokeStyle = C.amber; ctx.lineWidth = p.r * 0.2; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, TAU); ctx.fill(); ctx.stroke(); }
   ctx.globalAlpha = 1;
   if (p.escudo) { ctx.strokeStyle = C.cyan; ctx.globalAlpha = 0.75; ctx.lineWidth = p.r * 0.1; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 1.32, 0, TAU); ctx.stroke(); ctx.globalAlpha = 1; }
