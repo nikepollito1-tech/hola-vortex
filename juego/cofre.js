@@ -261,7 +261,7 @@ const Cofre = (() => {
     k.className = "carta3d entra" + (nivel >= 2 ? " presagio" : "");
     k.style.setProperty("--r", color);
     const dorso = document.createElement("div"); dorso.className = "cara dorso";
-    dorso.innerHTML = '<div class="dorso-marco"><img src="img/vortex_curioso.svg" alt=""><span>HOLA, VÓRTEX</span></div>';
+    dorso.innerHTML = '<div class="dorso-marco"><img src="img3d/curioso.webp" alt=""><span>HOLA, VÓRTEX</span></div>';
     const frente = st.carta(c.item, {grande: true, nuevo: c.nuevo, polvo: c.polvo});
     frente.removeAttribute("id"); frente.classList.add("cara", "frente");
     k.append(dorso, frente);

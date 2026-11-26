@@ -198,6 +198,7 @@ async function svgCara(cara) {
   return SVG_TXT[cara];
 }
 async function urlCara(skin, cara) {
+  if (skin === "clasico") return `img3d/${cara}.webp`;
   const pal = PIELES[skin];
   return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(recolorear(await svgCara(cara), pal));
 }
